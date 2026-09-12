@@ -369,7 +369,11 @@ DOCUMENTACAO         modo incremental  <- aqui
     v
 [[GATE_SECURITY]]
     v
-[[DOC_CHANGELOG]]    o PASS dos dois gates autoriza a entrada
+[[GATE_FRONTEND]]    se a fase tocou a interface web
+    v
+[[GATE_API]]         se a fase tocou a API
+    v
+[[DOC_CHANGELOG]]    o PASS dos gates autoriza a entrada
 ```
 
 Documentação vem antes do changelog por um motivo prático: a entrada do

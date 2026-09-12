@@ -100,7 +100,10 @@ Como se verifica que o código segue esta decisão. Teste de
 arquitetura, regra de lint, item de revisão, verificação manual.
 
 Decisão sem verificação é erodida em silêncio. Quando houver
-verificação automática, ela entra no [[GATE_CODE]].
+verificação automática, ela entra no [[GATE_CODE]]. Convenção de
+API — estratégia de versionamento, formato de erro, estilo de
+paginação — é verificada por [[GATE_API]], que cobra que exista
+**uma**, registrada aqui.
 
 ## Reavaliação
 

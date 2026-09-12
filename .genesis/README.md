@@ -36,6 +36,8 @@ MANIFEST           tabela ID -> caminho + perfil do projeto
 70_LICENCA         sob que termos existe           -> LICENSE, ATRIBUICOES
 80_GATE_CODE       o código está bom?              -> PASS | FAIL
 81_GATE_SECURITY   o código está seguro?           -> PASS | FAIL
+82_GATE_FRONTEND   o frontend está medido?         -> PASS | FAIL
+83_GATE_API        a API tem design coerente?      -> PASS | FAIL
 90_DIRETRIZES      como se trabalha aqui           -> CLAUDE.md
 95_AGENTES         como um agente descobre isto    -> AGENTS.md
 
@@ -58,7 +60,7 @@ Ao final da fase, execute ../prompts/...   errado
 O `MANIFEST.md` é a única tabela que traduz ID em caminho. Consequências:
 
 - **Nenhum prompt depende da estrutura de pastas do projeto.** Projeto que usa
-  `documentacao/` em vez de `docs/` muda uma linha do manifesto, e os onze
+  `documentacao/` em vez de `docs/` muda uma linha do manifesto, e os treze
   prompts continuam corretos.
 - **Nenhuma referência quebra em silêncio.** ID ausente do manifesto é
   detectável; caminho relativo errado só aparece quando alguém tenta abrir.

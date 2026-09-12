@@ -80,7 +80,15 @@ Prefixos: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`.
    desatualizada reprova a fase como qualquer outro BLOCKER.
 3. Depois que o gate de código passar, execute `[[GATE_SECURITY]]`. Também é
    essencial.
-4. **Depois dos gates, preencha `[[DOC_CHANGELOG]]`** com a entrada da sessão.
+4. **Se a fase tocou a interface web**, execute `[[GATE_FRONTEND]]` depois do
+   gate de segurança. Ele mede conformidade de SEO, desempenho e acessibilidade,
+   e registra a evolução em `[[DOC_METRICAS_FRONT]]` — número antes, número
+   depois. Fase que altera frontend sem medida nova não fecha.
+5. **Se a fase tocou a API**, execute `[[GATE_API]]`. Ele avalia o design do
+   contrato — consistência, previsibilidade, compatibilidade retroativa — e não
+   só se a chamada responde. Quebra de contrato sem versionamento reprova a
+   fase.
+6. **Depois dos gates, preencha `[[DOC_CHANGELOG]]`** com a entrada da sessão.
    O `PASS` é o que autoriza a entrada. Resumido e objetivo: o que o software
    passa a fazer, decisões, verificação, pendências.
 

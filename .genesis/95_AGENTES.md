@@ -74,6 +74,8 @@ prompt autocontido; execute o que a tarefa pedir.
 | Montar ou completar a estrutura do projeto | `.genesis/00_ORQUESTRADOR.md` |
 | Revisar qualidade ao fim de uma fase | `.genesis/80_GATE_CODE.md` |
 | Revisar segurança, após o gate de código | `.genesis/81_GATE_SECURITY.md` |
+| Revisar frontend, SEO e métricas, após o gate de segurança | `.genesis/82_GATE_FRONTEND.md` |
+| Revisar o design da API, após o gate de segurança | `.genesis/83_GATE_API.md` |
 | Registrar uma decisão arquitetural | `.genesis/40_ADR.md` |
 | Criar ou atualizar documentação | `.genesis/50_DOCUMENTACAO.md` |
 | Tirar cara de IA de um texto ou de uma interface | `.genesis/tools/HUMANIZER.md` |
@@ -92,9 +94,12 @@ leia-o antes de executar qualquer prompt do pacote.
 2. Se a seção 21.2 acusar documentação desatualizada:
    `.genesis/50_DOCUMENTACAO.md` em modo incremental, depois volte ao passo 1
 3. `.genesis/81_GATE_SECURITY.md` — precisa retornar PASS
-4. Entrada em `<caminho de [[DOC_CHANGELOG]]>`
+4. `.genesis/82_GATE_FRONTEND.md` — se a fase tocou a interface web; precisa
+   retornar PASS e deixar a medição registrada
+5. `.genesis/83_GATE_API.md` — se a fase tocou a API; precisa retornar PASS
+6. Entrada em `<caminho de [[DOC_CHANGELOG]]>`
 
-O PASS dos dois gates é o que autoriza a entrada no changelog.
+O PASS dos gates é o que autoriza a entrada no changelog.
 
 Documentação desatualizada reprova a fase como qualquer outro BLOCKER — a
 seção 21.2 do gate compara o diff contra o campo `Implementação:` dos
@@ -162,7 +167,7 @@ Execute `.genesis/80_GATE_CODE.md` sobre as alterações atuais.
 ```
 
 Vale para os três ou quatro fluxos de uso diário — tipicamente `/gate-code`,
-`/gate-security`, `/adr`. Criar um para os onze prompts é ruído: o resto se
+`/gate-security`, `/adr`. Criar um para os treze prompts é ruído: o resto se
 chama pelo caminho, e é chamado raramente.
 
 ### Comandos — Gemini CLI

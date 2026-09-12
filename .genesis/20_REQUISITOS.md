@@ -87,17 +87,19 @@ requisito para preencher:
 
 | Categoria | Pergunta que responde |
 | --- | --- |
-| Desempenho | Quão rápido, sob que carga, medido como? |
+| Desempenho | Quão rápido, sob que carga, medido como? Em interface web, liga no `[[GATE_FRONTEND]]` |
 | Escala | Quantos usuários, registros, requisições simultâneas? |
 | Disponibilidade | Quanto tempo fora do ar é tolerável? Tem janela de manutenção? |
 | Segurança | Que dado é sensível? Quem pode ver o quê? |
 | Privacidade | Coleta dado pessoal? Sob que base legal? Por quanto tempo? |
-| Acessibilidade | Que nível? Teclado, leitor de tela, contraste? |
+| Acessibilidade | Que nível? Teclado, leitor de tela, contraste? Liga no `[[GATE_FRONTEND]]` |
 | Portabilidade | Que sistemas, navegadores, versões? |
 | Manutenibilidade | Que cobertura, que complexidade máxima? Liga no `[[GATE_CODE]]` |
 | Observabilidade | O que se registra em log, o que se mede, como se descobre falha? |
 | Internacionalização | Quantos idiomas, quantos fusos, que formatos? |
 | Licenciamento | Que licença de dependência entra? Liga no `[[GATE_SECURITY]]` |
+| Descoberta | A interface precisa ser achada por busca? Que rota, que limiar? Liga no `[[GATE_FRONTEND]]` |
+| Contrato de API | Quem consome, que compatibilidade se promete, por quanto tempo? Liga no `[[GATE_API]]` |
 
 ---
 
@@ -153,6 +155,56 @@ alteração, com versão, licença e origem.
 O critério inverte: a licença **do projeto** é que restringe o que pode entrar.
 Registre a licença escolhida em `[[LICENCA]]` e derive a lista de compatíveis
 dela — projeto MIT não absorve dependência GPL sem virar GPL.
+
+---
+
+## RNF de Frontend, SEO e métricas
+
+*(só quando `interface_web: sim` no perfil)*
+
+O `[[GATE_FRONTEND]]` mede contra limiar, e limiar sem dono é chute. Este RNF é
+onde o número vive; o gate só consulta.
+
+Gere-o a partir de `indexavel`, da resposta de escala e uso, e do público real
+do produto. Painel interno em rede corporativa e loja pública em rede móvel não
+merecem o mesmo alvo — copiar o padrão sem pensar produz meta que ninguém
+persegue.
+
+```markdown
+### RNF-00N — Desempenho, acessibilidade e descoberta do frontend
+
+**Status:** Implementado | Proposto
+**Categoria:** Desempenho · Acessibilidade · Descoberta
+
+Medido em build de produção, perfil móvel, mediana de 3 execuções, nas
+rotas listadas abaixo.
+
+| Métrica | Limiar | Rotas |
+| --- | --- | --- |
+| LCP | <= 2,5 s | inicial, entrada de busca, rotas alteradas |
+| INP | <= 200 ms | idem |
+| CLS | <= 0,1 | idem |
+| TTFB | <= 800 ms | idem |
+| Lighthouse Performance | >= 90 | idem |
+| Lighthouse Accessibility | >= 95 | todas |
+| Lighthouse SEO | >= 95 | rotas indexáveis |
+| Violações axe A/AA | 0 | todas |
+| JavaScript por rota | <= N kB | rotas alteradas |
+
+**Acessibilidade:** WCAG 2.2 nível AA.
+
+**Indexabilidade:** *(quando `indexavel: sim`)* rota pública serve
+conteúdo principal e metadados no HTML inicial, com canonical
+autorreferente e entrada no sitemap.
+
+**Verificação:** `[[GATE_FRONTEND]]`
+**Registro:** série histórica em `[[DOC_METRICAS_FRONT]]`, uma linha por
+fase que tocar o frontend.
+```
+
+Limiar que o projeto ainda não alcança entra como `Proposto`, com o valor atual
+medido ao lado do alvo. Registrar a distância é honesto; registrar o alvo como
+se fosse o presente transforma o gate em teatro.
 
 ---
 

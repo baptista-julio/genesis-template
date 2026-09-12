@@ -89,7 +89,9 @@ porque reflete dependência real de informação:
 8. [[CHANGELOG]]       como registrar mudanças
 9. [[GATE_CODE]]       régua de qualidade de código
 10. [[GATE_SECURITY]]  régua de segurança
-11. [[AGENTES]]        como um agente descobre tudo isto
+11. [[GATE_FRONTEND]]  régua de frontend, SEO e métricas
+12. [[GATE_API]]       régua de design de API
+13. [[AGENTES]]        como um agente descobre tudo isto
 ```
 
 Aplique os cortes condicionais, lendo o perfil:
@@ -98,11 +100,13 @@ Aplique os cortes condicionais, lendo o perfil:
 | --- | --- |
 | `distribuicao: fechado` | `[[LICENCA]]` foca em licença proprietária e conformidade das dependências, não em escolher licença aberta |
 | `tem_dependencias: nao` | `[[DOC_ATRIBUICOES]]` não é gerado |
-| `tem_api: nao` | `[[DIR_API]]` não é gerado |
+| `tem_api: nao` | `[[DIR_API]]` não é gerado, e `[[GATE_API]]` não entra no roteiro |
 | `estagio: bootstrap` | `[[DOCUMENTACAO]]` roda em modo criação; não há código para auditar |
 | `estagio: maduro` ou `legado` | `[[DOCUMENTACAO]]` roda em modo reorganização; o código é a fonte da verdade |
 | `equipe: solo` | Cabeçalho de documento dispensa o campo `Owner` |
-| `tem_interface: nao` | Revisão de linguagem de interface do `[[GATE_CODE]]` fica `N/A` |
+| `tem_interface: nao` | Revisão de linguagem de interface do `[[GATE_CODE]]` fica `N/A`, e `[[GATE_FRONTEND]]` não entra no roteiro |
+| `interface_web: nao` | `[[GATE_FRONTEND]]` não entra no roteiro — interface que não roda em navegador não tem SEO nem Core Web Vitals |
+| `indexavel: nao` | `[[GATE_FRONTEND]]` roda sem as seções de descoberta (5, 6, 7); desempenho, responsividade e acessibilidade continuam valendo |
 
 Apresente o roteiro ao usuário **antes de executar**, no formato:
 
@@ -212,6 +216,8 @@ mais por ele — está em `[[DIRETRIZES]]`, e roda a cada fase de implementaçã
 [[GATE_CODE]]  ->  [[DOCUMENTACAO]] incremental, se a § 21.2 acusar
                ->  [[GATE_CODE]] de novo
                ->  [[GATE_SECURITY]]
+               ->  [[GATE_FRONTEND]], se a fase tocou a interface web
+               ->  [[GATE_API]], se a fase tocou a API
                ->  [[DOC_CHANGELOG]]
 ```
 

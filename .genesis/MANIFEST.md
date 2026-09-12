@@ -38,6 +38,8 @@ Os prompts são o pacote em si. Mudam de lugar apenas se você mover a pasta.
 | `[[LICENCA]]` | `.genesis/70_LICENCA.md` | Sob que termos isto é distribuído? |
 | `[[GATE_CODE]]` | `.genesis/80_GATE_CODE.md` | O código está bom o bastante? |
 | `[[GATE_SECURITY]]` | `.genesis/81_GATE_SECURITY.md` | O código está seguro o bastante? |
+| `[[GATE_FRONTEND]]` | `.genesis/82_GATE_FRONTEND.md` | O frontend está conforme, rápido e mensurável? |
+| `[[GATE_API]]` | `.genesis/83_GATE_API.md` | A API tem design consistente, previsível e sustentável? |
 | `[[DIRETRIZES]]` | `.genesis/90_DIRETRIZES.md` | Como se trabalha neste repositório? |
 | `[[AGENTES]]` | `.genesis/95_AGENTES.md` | Como um agente descobre tudo isto? |
 
@@ -75,6 +77,7 @@ de projeto para projeto.** Os caminhos abaixo são o padrão sugerido; ajuste-os
 | `[[DIR_ADR]]` | `docs/adr/` | `[[ADR]]` | sim |
 | `[[DOC_INDICE]]` | `docs/README.md` | `[[DOCUMENTACAO]]` | sim |
 | `[[DOC_MAPA]]` | `docs/MAPA_MODULOS.md` | `[[MAPA_MODULOS]]` | se houver código |
+| `[[DOC_METRICAS_FRONT]]` | `docs/metricas/frontend.md` | `[[GATE_FRONTEND]]` | se houver interface web |
 | `[[DIR_SPEC]]` | `docs/spec/` | `[[DOCUMENTACAO]]` | quando houver domínio |
 | `[[DIR_API]]` | `docs/api/` | `[[DOCUMENTACAO]]` | se expuser API |
 | `[[DIR_RUNBOOK]]` | `docs/runbook/` | `[[DOCUMENTACAO]]` | se houver implantação |
@@ -98,6 +101,8 @@ linguagens:
 tem_api:           # sim | nao
 tem_banco:         # sim | nao
 tem_interface:     # sim | nao
+interface_web:     # sim | nao — se sim, [[GATE_FRONTEND]] se aplica
+indexavel:         # sim | nao — a interface deve ser encontrada por busca?
 tem_dependencias:  # sim | nao
 equipe:            # solo | pequena | multipla
 ```
