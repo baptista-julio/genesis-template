@@ -14,10 +14,16 @@ Chama-se um prompt; ele ramifica no resto.
 2. Peça ao modelo: **"Execute `.genesis/00_ORQUESTRADOR.md`"**.
 
 O orquestrador diagnostica o que falta, monta o roteiro, mostra para
-aprovação e executa.
+aprovação e executa. No mesmo roteiro, pergunta quais skills opcionais
+instalar (`frontend-design`, `diagnosing-bugs` e outras, via `npx skills add`).
 
-Rodar de novo no mesmo projeto é seguro: ele detecta o que já existe e cobre
-só as lacunas.
+Ao terminar, instala no projeto só o que o ciclo de trabalho continua usando —
+gates, ADR, documentação, changelog e ferramentas — em `docs/governanca/`, e
+**remove `.genesis/`**. A coluna **Persiste** do `MANIFEST.md` define o que
+fica.
+
+Rodar de novo no mesmo projeto é seguro: copie `.genesis/` outra vez; ele lê o
+perfil do manifesto instalado, detecta o que já existe e cobre só as lacunas.
 
 ---
 
@@ -109,7 +115,7 @@ Leia .genesis/MANIFEST.md e depois execute .genesis/00_ORQUESTRADOR.md
 
 Atalhos específicos de ferramenta — skill do Claude, comando TOML do Gemini,
 regra do Cursor — são opcionais e ficam documentados em `95_AGENTES`. Todos são
-ponteiros de poucas linhas; o conteúdo nunca sai de `.genesis/`.
+ponteiros de poucas linhas; o conteúdo fica em `docs/governanca/`.
 
 ---
 

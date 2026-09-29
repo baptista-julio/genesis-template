@@ -10,6 +10,11 @@ decidir a ordem e delegar a cada prompt especializado. Você é o roteador.
 Leia primeiro o `MANIFEST.md`, na mesma pasta deste arquivo. Ele resolve todo
 `[[ID]]` que aparecer daqui em diante.
 
+Se `[[DIR_GOVERNANCA]]` já tiver um `MANIFEST.md`, o Genesis já montou este
+projeto antes e foi removido. Copie o **Perfil do projeto** e a tabela de
+**Artefatos** de lá para `.genesis/MANIFEST.md` antes de qualquer outra coisa:
+o manifesto instalado é a fonte de verdade, não o do pacote recém-copiado.
+
 ---
 
 ## Princípio de operação
@@ -117,9 +122,32 @@ ROTEIRO
  3. [[REQUISITOS]]    criar     entrevista
  ...
  PULADO: [[DIR_API]]  projeto não expõe API
+
+AO FINAL
+ skills               <as escolhidas, ou nenhuma>
+ instalar             <prompts que persistem> -> [[DIR_GOVERNANCA]]
+ remover              .genesis/
 ```
 
+Na mesma mensagem, pergunte quais **skills opcionais** instalar — todas,
+algumas ou nenhuma. Liste-as com uma linha de descrição cada e marque as que o
+perfil recomenda:
+
+| Skill | Comando | Recomendada quando |
+| --- | --- | --- |
+| `frontend-design` | `npx skills add https://github.com/anthropics/skills --skill frontend-design` | `interface_web: sim` |
+| `ui-ux-pro-max` | `npx skills add https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max` | `tem_interface: sim` |
+| `polish` | `npx skills add https://github.com/pbakaus/impeccable --skill polish` | `tem_interface: sim` |
+| `canvas-design` | `npx skills add https://github.com/anthropics/skills --skill canvas-design` | o projeto produz peça visual estática |
+| `codebase-design` | `npx skills add https://github.com/mattpocock/skills --skill codebase-design` | sempre |
+| `diagnosing-bugs` | `npx skills add https://github.com/mattpocock/skills --skill diagnosing-bugs` | sempre |
+
+Tire a descrição de cada uma da própria fonte — `npx skills add <repo> --list`
+lista o que o repositório oferece —, não de memória.
+
 Peça confirmação. O usuário pode cortar etapas — respeite o corte e registre-o.
+A remoção de `.genesis/` também pode ser cortada: nesse caso, a Etapa 5 instala
+o kit mesmo assim e só pula a remoção.
 
 ---
 
@@ -167,7 +195,58 @@ grafo:
 
 ---
 
-## Etapa 5 — Relatório
+## Etapa 5 — Instalação e remoção
+
+A estrutura está pronta; `.genesis/` é andaime e sai. Antes, o que o ciclo de
+trabalho continua usando muda para o repositório do projeto.
+
+### 5.1 Skills
+
+Se o usuário escolheu alguma, instale cada uma no escopo do projeto, sem
+prompt interativo e copiando em vez de criar link simbólico:
+
+```text
+npx skills add <repo> --skill <nome> -y --copy
+```
+
+Rode uma por vez e confira a saída. Falha — sem rede, sem Node, repositório
+fora do ar — não bloqueia o resto: registre em PENDÊNCIAS com o comando exato
+para o usuário repetir.
+
+### 5.2 Instalação do kit
+
+1. Copie para `[[DIR_GOVERNANCA]]` todo prompt com **Persiste** `sim` no
+   `MANIFEST.md`, mais os condicionais cuja condição o perfil satisfaz.
+   Mantenha o nome do arquivo; os de `tools/` vão para a raiz da pasta.
+2. Gere `[[DIR_GOVERNANCA]]/MANIFEST.md` como descrito na seção **Depois da
+   montagem** do manifesto: caminhos reescritos, linhas que não persistem
+   removidas, perfil e artefatos preenchidos.
+3. Todo ponteiro gerado — `[[DOC_AGENTES]]`, `[[DOC_DIRETRIZES]]`, comandos de
+   barra, regras de ferramenta — cita caminhos de `[[DIR_GOVERNANCA]]`.
+   [[AGENTES]] e [[DIRETRIZES]] já escrevem assim; aqui se confere.
+
+### 5.3 Verificação
+
+Nada é removido antes de passar nas três:
+
+- todo arquivo do item 1 existe em `[[DIR_GOVERNANCA]]`;
+- todo caminho da tabela do manifesto instalado existe em disco, ou está
+  marcado como não aplicável;
+- busca por `.genesis/` em todos os arquivos do projeto **fora** de `.genesis/`
+  não retorna nada. Ocorrência encontrada é ponteiro que vai quebrar: corrija
+  para o caminho instalado.
+
+Se algum item falhar e não puder ser corrigido, **não remova**. Registre o
+motivo em PENDÊNCIAS.
+
+### 5.4 Remoção
+
+Apague `.genesis/` inteira. Não faça commit: a remoção entra na alteração que
+o usuário vai revisar junto com o resto.
+
+---
+
+## Etapa 6 — Relatório
 
 ```text
 GENESIS
@@ -181,6 +260,13 @@ ATUALIZADOS
 
 PULADOS
   id — por quê
+
+INSTALADOS EM [[DIR_GOVERNANCA]]
+  arquivos
+SKILLS
+  instaladas | falharam (com o comando) | nenhuma escolhida
+.genesis/
+  removida | mantida — por quê
 
 DECISÕES DO USUÁRIO
   o que foi decidido, e onde está registrado
@@ -201,7 +287,11 @@ subsequente:
 - a Etapa 0 detecta o que já existe e o roteiro só cobre as lacunas;
 - documentos existentes são **atualizados**, nunca sobrescritos em bloco;
 - conteúdo escrito à mão pelo usuário é preservado — na dúvida, pergunte antes
-  de reescrever um parágrafo que você não gerou.
+  de reescrever um parágrafo que você não gerou;
+- como `.genesis/` foi removida ao fim da execução anterior, o usuário a copia
+  de novo; o perfil vem do manifesto em `[[DIR_GOVERNANCA]]`, e a Etapa 5
+  atualiza os prompts instalados com a versão nova do pacote — prompt editado
+  à mão no projeto é mostrado em diff antes de ser substituído.
 
 Rodar o Genesis duas vezes não pode destruir trabalho feito entre as duas.
 
@@ -221,6 +311,7 @@ mais por ele — está em `[[DIRETRIZES]]`, e roda a cada fase de implementaçã
                ->  [[DOC_CHANGELOG]]
 ```
 
-Chame o orquestrador de novo apenas quando a estrutura em si mudar: artefato
-novo, projeto que passou de `bootstrap` a `em-desenvolvimento`, arquitetura
-revista.
+Esses prompts rodam a partir de `[[DIR_GOVERNANCA]]`, depois que `.genesis/`
+sai. Chame o orquestrador de novo — copiando `.genesis/` outra vez — apenas
+quando a estrutura em si mudar: artefato novo, projeto que passou de
+`bootstrap` a `em-desenvolvimento`, arquitetura revista.

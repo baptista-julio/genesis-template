@@ -26,22 +26,27 @@ Caminhos são relativos à **raiz do projeto**, não à pasta deste pacote.
 
 Os prompts são o pacote em si. Mudam de lugar apenas se você mover a pasta.
 
-| ID | Caminho | Responde a pergunta |
-| --- | --- | --- |
-| `[[ORQUESTRADOR]]` | `.genesis/00_ORQUESTRADOR.md` | O que este projeto precisa, e em que ordem? |
-| `[[DISCOVERY]]` | `.genesis/10_DISCOVERY.md` | O que é este projeto, afinal? |
-| `[[REQUISITOS]]` | `.genesis/20_REQUISITOS.md` | O que o sistema precisa fazer e garantir? |
-| `[[ARQUITETURA]]` | `.genesis/30_ARQUITETURA.md` | Que forma o sistema deve ter? |
-| `[[ADR]]` | `.genesis/40_ADR.md` | Como registrar uma decisão? |
-| `[[DOCUMENTACAO]]` | `.genesis/50_DOCUMENTACAO.md` | Como criar e manter a documentação? |
-| `[[CHANGELOG]]` | `.genesis/60_CHANGELOG.md` | Como registrar o que mudou? |
-| `[[LICENCA]]` | `.genesis/70_LICENCA.md` | Sob que termos isto é distribuído? |
-| `[[GATE_CODE]]` | `.genesis/80_GATE_CODE.md` | O código está bom o bastante? |
-| `[[GATE_SECURITY]]` | `.genesis/81_GATE_SECURITY.md` | O código está seguro o bastante? |
-| `[[GATE_FRONTEND]]` | `.genesis/82_GATE_FRONTEND.md` | O frontend está conforme, rápido e mensurável? |
-| `[[GATE_API]]` | `.genesis/83_GATE_API.md` | A API tem design consistente, previsível e sustentável? |
-| `[[DIRETRIZES]]` | `.genesis/90_DIRETRIZES.md` | Como se trabalha neste repositório? |
-| `[[AGENTES]]` | `.genesis/95_AGENTES.md` | Como um agente descobre tudo isto? |
+A coluna **Persiste** diz o que sobrevive à montagem. Ao final, o
+`[[ORQUESTRADOR]]` copia os prompts marcados para `[[DIR_GOVERNANCA]]` e remove
+`.genesis/` — ver **Depois da montagem**, abaixo. Prompt com `não` só serve
+para montar a estrutura.
+
+| ID | Caminho | Responde a pergunta | Persiste |
+| --- | --- | --- | --- |
+| `[[ORQUESTRADOR]]` | `.genesis/00_ORQUESTRADOR.md` | O que este projeto precisa, e em que ordem? | não |
+| `[[DISCOVERY]]` | `.genesis/10_DISCOVERY.md` | O que é este projeto, afinal? | não |
+| `[[REQUISITOS]]` | `.genesis/20_REQUISITOS.md` | O que o sistema precisa fazer e garantir? | não |
+| `[[ARQUITETURA]]` | `.genesis/30_ARQUITETURA.md` | Que forma o sistema deve ter? | não |
+| `[[ADR]]` | `.genesis/40_ADR.md` | Como registrar uma decisão? | sim |
+| `[[DOCUMENTACAO]]` | `.genesis/50_DOCUMENTACAO.md` | Como criar e manter a documentação? | sim |
+| `[[CHANGELOG]]` | `.genesis/60_CHANGELOG.md` | Como registrar o que mudou? | sim |
+| `[[LICENCA]]` | `.genesis/70_LICENCA.md` | Sob que termos isto é distribuído? | não |
+| `[[GATE_CODE]]` | `.genesis/80_GATE_CODE.md` | O código está bom o bastante? | sim |
+| `[[GATE_SECURITY]]` | `.genesis/81_GATE_SECURITY.md` | O código está seguro o bastante? | sim |
+| `[[GATE_FRONTEND]]` | `.genesis/82_GATE_FRONTEND.md` | O frontend está conforme, rápido e mensurável? | se `interface_web: sim` |
+| `[[GATE_API]]` | `.genesis/83_GATE_API.md` | A API tem design consistente, previsível e sustentável? | se `tem_api: sim` |
+| `[[DIRETRIZES]]` | `.genesis/90_DIRETRIZES.md` | Como se trabalha neste repositório? | não |
+| `[[AGENTES]]` | `.genesis/95_AGENTES.md` | Como um agente descobre tudo isto? | não |
 
 ---
 
@@ -50,10 +55,10 @@ Os prompts são o pacote em si. Mudam de lugar apenas se você mover a pasta.
 Prompts avulsos. Não fazem parte da sequência do `[[ORQUESTRADOR]]` — são
 chamados quando a tarefa pede.
 
-| ID | Caminho | O que faz |
-| --- | --- | --- |
-| `[[HUMANIZER]]` | `.genesis/tools/HUMANIZER.md` | Reescreve texto para não soar como saída de modelo |
-| `[[MAPA_MODULOS]]` | `.genesis/tools/MAPA_MODULOS.md` | Gera o grafo de quem importa quem |
+| ID | Caminho | O que faz | Persiste |
+| --- | --- | --- | --- |
+| `[[HUMANIZER]]` | `.genesis/tools/HUMANIZER.md` | Reescreve texto para não soar como saída de modelo | sim |
+| `[[MAPA_MODULOS]]` | `.genesis/tools/MAPA_MODULOS.md` | Gera o grafo de quem importa quem | sim |
 
 ---
 
@@ -65,6 +70,7 @@ de projeto para projeto.** Os caminhos abaixo são o padrão sugerido; ajuste-os
 
 | ID | Caminho | Produzido por | Obrigatório |
 | --- | --- | --- | --- |
+| `[[DIR_GOVERNANCA]]` | `docs/governanca/` | `[[ORQUESTRADOR]]` | sim |
 | `[[DOC_DIRETRIZES]]` | `CLAUDE.md` | `[[DIRETRIZES]]` | sim |
 | `[[DOC_AGENTES]]` | `AGENTS.md` | `[[AGENTES]]` | sim |
 | `[[DOC_CHANGELOG]]` | `docs/CHANGELOG.md` | `[[CHANGELOG]]` | sim |
@@ -117,3 +123,25 @@ equipe:            # solo | pequena | multipla
    **Artefatos** aos caminhos reais — antes de gerar qualquer documento.
 
 Nada além deste arquivo precisa ser alterado.
+
+---
+
+## Depois da montagem
+
+`.genesis/` é andaime: sai do projeto quando a estrutura fica pronta. O que o
+ciclo de trabalho continua usando fica em `[[DIR_GOVERNANCA]]`:
+
+- os prompts com **Persiste** `sim`, ou cuja condição o perfil satisfaz,
+  com o mesmo nome de arquivo — `tools/` achatado na raiz da pasta;
+- uma cópia deste manifesto, com as colunas `Caminho` apontando para
+  `[[DIR_GOVERNANCA]]`, as linhas dos prompts que não persistem removidas e
+  esta seção substituída por uma linha dizendo como montar de novo.
+
+A partir daí, o manifesto instalado é a fonte de verdade de perfil e caminhos.
+ID de prompt que não persistiu cai na regra 3 de **Como resolver uma
+referência**: opcional, siga adiante.
+
+Para rodar o Genesis de novo — artefato novo, mudança de estágio, arquitetura
+revista —, copie `.genesis/` outra vez para a raiz e execute
+`[[ORQUESTRADOR]]`. Ele lê o manifesto instalado antes de perguntar qualquer
+coisa.

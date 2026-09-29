@@ -200,6 +200,11 @@ da formatação melhor que uma instrução em texto.
 
 Uma página, no máximo duas. Seções curtas, listas, imperativo.
 
+**Resolva os IDs antes de escrever.** Quem lê `[[DOC_DIRETRIZES]]` não conhece
+a sintaxe `[[ID]]`. Artefato vira o caminho real; prompt vira o caminho
+instalado em `[[DIR_GOVERNANCA]]` — `.genesis/` é removida ao fim da montagem,
+e ponteiro para ela quebra.
+
 Ordene por frequência de uso: o que vale em toda alteração vem primeiro; o que
 vale em caso raro, depois.
 
