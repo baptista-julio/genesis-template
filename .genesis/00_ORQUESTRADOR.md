@@ -92,11 +92,12 @@ porque reflete dependência real de informação:
 6. [[ADR]]             como registrar decisões
 7. [[DOCUMENTACAO]]    como documentar e manter
 8. [[CHANGELOG]]       como registrar mudanças
-9. [[GATE_CODE]]       régua de qualidade de código
-10. [[GATE_SECURITY]]  régua de segurança
-11. [[GATE_FRONTEND]]  régua de frontend, SEO e métricas
-12. [[GATE_API]]       régua de design de API
-13. [[AGENTES]]        como um agente descobre tudo isto
+9. [[GATE_API]]        régua de design de API
+10. [[GATE_FRONTEND]]  régua de frontend, SEO e métricas
+11. [[GATE_INPUT]]     régua de tratamento de input
+12. [[GATE_SECURITY]]  régua de segurança
+13. [[GATE_CODE]]      régua de qualidade de código (último gate)
+14. [[AGENTES]]        como um agente descobre tudo isto
 ```
 
 Aplique os cortes condicionais, lendo o perfil:
@@ -303,12 +304,14 @@ Este prompt monta a estrutura. O ciclo de trabalho que vem depois não passa
 mais por ele — está em `[[DIRETRIZES]]`, e roda a cada fase de implementação:
 
 ```text
-[[GATE_CODE]]  ->  [[DOCUMENTACAO]] incremental, se a § 21.2 acusar
-               ->  [[GATE_CODE]] de novo
-               ->  [[GATE_SECURITY]]
-               ->  [[GATE_FRONTEND]], se a fase tocou a interface web
-               ->  [[GATE_API]], se a fase tocou a API
-               ->  [[DOC_CHANGELOG]]
+[[GATE_API]],  se a fase tocou a API
+  ->  [[GATE_FRONTEND]], se a fase tocou a interface web
+  ->  [[GATE_INPUT]], se a fase tocou fronteira de entrada
+  ->  [[GATE_SECURITY]]
+  ->  [[GATE_CODE]]
+  ->  [[DOCUMENTACAO]] incremental, se a § 21.2 acusar
+      (e [[GATE_CODE]] de novo, até a § 21.2 ficar limpa)
+  ->  [[DOC_CHANGELOG]]
 ```
 
 Esses prompts rodam a partir de `[[DIR_GOVERNANCA]]`, depois que `.genesis/`

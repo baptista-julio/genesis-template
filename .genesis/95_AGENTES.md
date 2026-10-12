@@ -77,10 +77,11 @@ um prompt autocontido; execute o que a tarefa pedir.
 
 | Tarefa | Execute |
 | --- | --- |
-| Revisar qualidade ao fim de uma fase | `<gov>/80_GATE_CODE.md` |
-| Revisar segurança, após o gate de código | `<gov>/81_GATE_SECURITY.md` |
-| Revisar frontend, SEO e métricas, após o gate de segurança | `<gov>/82_GATE_FRONTEND.md` |
-| Revisar o design da API, após o gate de segurança | `<gov>/83_GATE_API.md` |
+| Revisar o design da API (primeiro gate) | `<gov>/83_GATE_API.md` |
+| Revisar frontend, SEO e métricas, após o gate de API | `<gov>/82_GATE_FRONTEND.md` |
+| Revisar o tratamento de input, após o gate de frontend | `<gov>/84_GATE_INPUT.md` |
+| Revisar segurança, após o gate de input | `<gov>/81_GATE_SECURITY.md` |
+| Revisar qualidade ao fim da fase (último gate) | `<gov>/80_GATE_CODE.md` |
 | Registrar uma decisão arquitetural | `<gov>/40_ADR.md` |
 | Criar ou atualizar documentação | `<gov>/50_DOCUMENTACAO.md` |
 | Tirar cara de IA de um texto ou de uma interface | `<gov>/HUMANIZER.md` |
@@ -96,14 +97,16 @@ pacote Genesis para a raiz e execute o orquestrador dele.
 
 ## Ao terminar uma fase
 
-1. `<gov>/80_GATE_CODE.md` — precisa retornar PASS
-2. Se a seção 21.2 acusar documentação desatualizada:
-   `<gov>/50_DOCUMENTACAO.md` em modo incremental, depois volte ao passo 1
-3. `<gov>/81_GATE_SECURITY.md` — precisa retornar PASS
-4. `<gov>/82_GATE_FRONTEND.md` — se a fase tocou a interface web; precisa
+1. `<gov>/83_GATE_API.md` — se a fase tocou a API; precisa retornar PASS
+2. `<gov>/82_GATE_FRONTEND.md` — se a fase tocou a interface web; precisa
    retornar PASS e deixar a medição registrada
-5. `<gov>/83_GATE_API.md` — se a fase tocou a API; precisa retornar PASS
-6. Entrada em `<caminho de [[DOC_CHANGELOG]]>`
+3. `<gov>/84_GATE_INPUT.md` — se a fase criou ou alterou ponto de entrada de
+   dado externo; precisa retornar PASS
+4. `<gov>/81_GATE_SECURITY.md` — precisa retornar PASS
+5. `<gov>/80_GATE_CODE.md` — precisa retornar PASS
+6. Se a seção 21.2 acusar documentação desatualizada:
+   `<gov>/50_DOCUMENTACAO.md` em modo incremental, depois volte ao passo 5
+7. Entrada em `<caminho de [[DOC_CHANGELOG]]>`
 
 O PASS dos gates é o que autoriza a entrada no changelog.
 

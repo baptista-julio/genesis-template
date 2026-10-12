@@ -74,23 +74,45 @@ Prefixos: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`.
 
 ### Gates
 
-1. Ao final de cada fase, execute `[[GATE_CODE]]`. É essencial.
-2. **Se a § 21.2 acusar divergência**, execute `[[DOCUMENTACAO]]` em modo
-   incremental sobre os documentos apontados e re-execute a seção. Documentação
-   desatualizada reprova a fase como qualquer outro BLOCKER.
-3. Depois que o gate de código passar, execute `[[GATE_SECURITY]]`. Também é
-   essencial.
-4. **Se a fase tocou a interface web**, execute `[[GATE_FRONTEND]]` depois do
-   gate de segurança. Ele mede conformidade de SEO, desempenho e acessibilidade,
-   e registra a evolução em `[[DOC_METRICAS_FRONT]]` — número antes, número
-   depois. Fase que altera frontend sem medida nova não fecha.
-5. **Se a fase tocou a API**, execute `[[GATE_API]]`. Ele avalia o design do
+Ao final de cada fase, nesta ordem. Cada gate só começa quando o anterior
+aplicável retornou `PASS`.
+
+1. **Se a fase tocou a API**, execute `[[GATE_API]]`. Ele avalia o design do
    contrato — consistência, previsibilidade, compatibilidade retroativa — e não
    só se a chamada responde. Quebra de contrato sem versionamento reprova a
    fase.
-6. **Depois dos gates, preencha `[[DOC_CHANGELOG]]`** com a entrada da sessão.
+2. **Se a fase tocou a interface web**, execute `[[GATE_FRONTEND]]`. Ele mede
+   conformidade de SEO, desempenho e acessibilidade, e registra a evolução em
+   `[[DOC_METRICAS_FRONT]]` — número antes, número depois. Fase que altera
+   frontend sem medida nova não fecha.
+3. **Se a fase criou ou alterou um ponto de entrada de dado externo**, execute
+   `[[GATE_INPUT]]`. Ele rastreia o dado da fronteira até o uso e exige entrada
+   hostil executada contra cada fronteira; validação só no frontend reprova a
+   fase.
+4. Execute `[[GATE_SECURITY]]`. É essencial.
+5. Execute `[[GATE_CODE]]`. É essencial e vem por último de propósito: ele
+   avalia também o código alterado pelas correções dos gates anteriores.
+6. **Se a § 21.2 do gate de código acusar divergência**, execute
+   `[[DOCUMENTACAO]]` em modo incremental sobre os documentos apontados e
+   re-execute `[[GATE_CODE]]` até a seção ficar limpa. Documentação
+   desatualizada reprova a fase como qualquer outro BLOCKER.
+7. **Depois dos gates, preencha `[[DOC_CHANGELOG]]`** com a entrada da sessão.
    O `PASS` é o que autoriza a entrada. Resumido e objetivo: o que o software
    passa a fazer, decisões, verificação, pendências.
+
+### Segurança
+
+- Todo input externo é não confiável: parâmetro, query, cabeçalho, cookie, corpo,
+  upload, formulário, API externa, fila, webhook, variável de ambiente,
+  arquivo de configuração e dado vindo do frontend.
+- Valide no backend, mesmo que o frontend valide. Dado validado em outra camada
+  continua não confiável nesta.
+- Aceite por lista do que é permitido (tipo, formato, tamanho, valores), nunca
+  por lista do que é proibido. Codifique a saída para o contexto de destino.
+- Não exponha secrets e não os registre em log, erro ou resposta.
+- Não assuma tecnologia que o projeto não usa; trate os vetores da que ele usa.
+- Não mascare falha para obter `PASS`. Correção é seguida de nova validação.
+- Toda alteração é rastreável e todo resultado tem evidência que o justifica.
 
 ### Leituras obrigatórias
 

@@ -44,6 +44,7 @@ MANIFEST           tabela ID -> caminho + perfil do projeto
 81_GATE_SECURITY   o código está seguro?           -> PASS | FAIL
 82_GATE_FRONTEND   o frontend está medido?         -> PASS | FAIL
 83_GATE_API        a API tem design coerente?      -> PASS | FAIL
+84_GATE_INPUT      todo input é tratado no servidor? -> PASS | FAIL
 90_DIRETRIZES      como se trabalha aqui           -> CLAUDE.md
 95_AGENTES         como um agente descobre isto    -> AGENTS.md
 

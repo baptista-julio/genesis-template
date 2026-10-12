@@ -45,6 +45,7 @@ para montar a estrutura.
 | `[[GATE_SECURITY]]` | `.genesis/81_GATE_SECURITY.md` | O código está seguro o bastante? | sim |
 | `[[GATE_FRONTEND]]` | `.genesis/82_GATE_FRONTEND.md` | O frontend está conforme, rápido e mensurável? | se `interface_web: sim` |
 | `[[GATE_API]]` | `.genesis/83_GATE_API.md` | A API tem design consistente, previsível e sustentável? | se `tem_api: sim` |
+| `[[GATE_INPUT]]` | `.genesis/84_GATE_INPUT.md` | Todo dado externo é validado e tratado no servidor? | sim |
 | `[[DIRETRIZES]]` | `.genesis/90_DIRETRIZES.md` | Como se trabalha neste repositório? | não |
 | `[[AGENTES]]` | `.genesis/95_AGENTES.md` | Como um agente descobre tudo isto? | não |
 

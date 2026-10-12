@@ -1,8 +1,8 @@
 # Quality Gate — Frontend, SEO e Métricas
 
 > Prompt do pacote Genesis. Referências `[[ID]]` resolvem pelo `MANIFEST.md`.
-> Terceira etapa dos gates, executada depois de `[[GATE_SECURITY]]` retornar
-> PASS. Aplicável quando `tem_interface: sim` no perfil e a interface for
+> Executado depois de `[[GATE_API]]` retornar PASS (quando a fase tocou a API) e
+> antes de `[[GATE_INPUT]]`. Aplicável quando `tem_interface: sim` no perfil e a interface for
 > **web**. Caso contrário, o gate inteiro é `N/A` — registre e siga.
 > Os limiares vêm de `[[DOC_REQUISITOS_NF]]` (categorias Desempenho,
 > Acessibilidade e Descoberta). Quando o projeto definir limiar próprio,
@@ -10,8 +10,8 @@
 > divergência no relatório final.
 
 
-Você acabou de concluir uma fase de implementação **e já passou pelos gates de
-código e de segurança**. Este gate avalia exclusivamente o que o navegador e o
+Você acabou de concluir uma fase de implementação **e, se tocou a API, já passou
+pelo gate de API**. Este gate avalia exclusivamente o que o navegador e o
 mecanismo de busca veem: marcação, indexabilidade, desempenho, acessibilidade —
 e a evolução disso ao longo do tempo.
 

@@ -1,8 +1,9 @@
 # Quality Gate — Código
 
 > Prompt do pacote Genesis. Referências `[[ID]]` resolvem pelo `MANIFEST.md`.
-> Executado ao final de cada fase de implementação, antes de `[[GATE_SECURITY]]`,
-> `[[GATE_FRONTEND]]` e `[[GATE_API]]`.
+> Último gate da fase, executado depois de `[[GATE_API]]`, `[[GATE_FRONTEND]]`,
+> `[[GATE_INPUT]]` e `[[GATE_SECURITY]]` — os que se aplicam já retornaram PASS.
+> Por vir por último, avalia também o código alterado pelas correções deles.
 > A régua deste gate é calibrada por `[[DOC_REQUISITOS_NF]]` (categoria
 > Manutenibilidade) e pelas fronteiras declaradas em `[[DOC_ARQUITETURA]]`.
 > Quando o projeto definir limiar próprio, **o do projeto prevalece** sobre o
@@ -479,6 +480,9 @@ Investigue também:
 * autenticação;
 * serialização insegura.
 
+O tratamento sistemático de entrada — validação no servidor, limites, vetores
+por tecnologia — é avaliado por `[[GATE_INPUT]]`, que roda antes deste gate.
+
 ---
 
 # 20. CONTRATOS E COMPATIBILIDADE
@@ -501,7 +505,7 @@ Não altere contratos existentes silenciosamente.
 Esta seção pergunta **se** o contrato mudou. Se o que mudou foi a API pública,
 o **design** dessa mudança — nomenclatura, método, status, paginação,
 versionamento, consistência com os demais endpoints — é avaliado por
-`[[GATE_API]]`, depois do gate de segurança.
+`[[GATE_API]]`, que roda antes deste gate.
 
 ---
 
@@ -670,8 +674,8 @@ crítico — mensagem que a pessoa lê justamente quando já está com problema,
 que precisa dizer o que fazer a seguir.
 
 Marcação, desempenho, indexabilidade e acessibilidade da interface **não são
-avaliados aqui** — são o escopo do `[[GATE_FRONTEND]]`, que roda depois do gate
-de segurança quando `interface_web: sim`. Este gate olha o código; aquele olha
+avaliados aqui** — são o escopo do `[[GATE_FRONTEND]]`, que roda antes deste
+gate quando `interface_web: sim`. Este gate olha o código; aquele olha
 o que o navegador recebeu.
 
 ---

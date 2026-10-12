@@ -1,8 +1,8 @@
 # Quality Gate — Design de API
 
 > Prompt do pacote Genesis. Referências `[[ID]]` resolvem pelo `MANIFEST.md`.
-> Executado depois de `[[GATE_SECURITY]]` retornar PASS, junto com
-> `[[GATE_FRONTEND]]` — os dois são independentes entre si.
+> Primeiro gate da sequência: executado ao fim da implementação, antes de
+> `[[GATE_FRONTEND]]`, `[[GATE_INPUT]]`, `[[GATE_SECURITY]]` e `[[GATE_CODE]]`.
 > Aplicável quando `tem_api: sim` no perfil. Caso contrário, `N/A`.
 > O contrato de referência é `[[DIR_API]]`; os limiares de desempenho e
 > disponibilidade vêm de `[[DOC_REQUISITOS_NF]]`; as fronteiras entre módulos,
@@ -21,8 +21,8 @@ que a primeira página não os cubra.
 [ms-api-impl]: https://learn.microsoft.com/pt-br/azure/architecture/best-practices/api-implementation
 
 
-Você acabou de concluir uma fase de implementação **e já passou pelos gates de
-código e de segurança**. Este gate avalia exclusivamente o **design da
+Você acabou de concluir uma fase de implementação **e este é o primeiro gate
+da sequência**. Este gate avalia exclusivamente o **design da
 interface pública**: o que um consumidor externo vê, chama e depende.
 
 O objetivo não é verificar se a API funciona — isso o gate de código já mediu.

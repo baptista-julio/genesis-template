@@ -100,9 +100,10 @@ identificador de seção, ou só `[Não publicado]` com entradas datadas.
 ## Entrada de sessão de trabalho
 
 Quando o projeto usa gates (`[[DIRETRIZES]]` define isso), a entrada do
-changelog é escrita **depois** de `[[GATE_CODE]]` e `[[GATE_SECURITY]]`
-retornarem `PASS` — e de `[[GATE_FRONTEND]]` ou `[[GATE_API]]`, quando a fase
-tocou a interface web ou a API. O gate aprovado é o que autoriza a entrada.
+changelog é escrita **depois** de `[[GATE_SECURITY]]` e `[[GATE_CODE]]`
+retornarem `PASS` — e de `[[GATE_INPUT]]`, `[[GATE_FRONTEND]]` ou `[[GATE_API]]`,
+quando a fase tocou fronteira de entrada, a interface web ou a API. O gate
+aprovado é o que autoriza a entrada.
 
 Fase que mexeu no frontend registra, junto com o que mudou, o que a medição
 mostrou: a métrica que se moveu, de quanto para quanto. Changelog que diz

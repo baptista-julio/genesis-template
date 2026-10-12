@@ -361,17 +361,19 @@ acontece de carona.
 ```text
 implementação
     v
+[[GATE_API]]         se a fase tocou a API
+    v
+[[GATE_FRONTEND]]    se a fase tocou a interface web
+    v
+[[GATE_INPUT]]       se a fase tocou fronteira de entrada
+    v
+[[GATE_SECURITY]]
+    v
 [[GATE_CODE]]        acusa divergência em § 21.2
     v
 DOCUMENTACAO         modo incremental  <- aqui
     v
 [[GATE_CODE]]        re-executa § 21.2, precisa ficar limpa
-    v
-[[GATE_SECURITY]]
-    v
-[[GATE_FRONTEND]]    se a fase tocou a interface web
-    v
-[[GATE_API]]         se a fase tocou a API
     v
 [[DOC_CHANGELOG]]    o PASS dos gates autoriza a entrada
 ```
