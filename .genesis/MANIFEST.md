@@ -39,6 +39,7 @@ para montar a estrutura.
 | `[[ARQUITETURA]]` | `.genesis/30_ARQUITETURA.md` | Que forma o sistema deve ter? | não |
 | `[[ADR]]` | `.genesis/40_ADR.md` | Como registrar uma decisão? | sim |
 | `[[DOCUMENTACAO]]` | `.genesis/50_DOCUMENTACAO.md` | Como criar e manter a documentação? | sim |
+| `[[DOCUMENTACAO_USUARIO]]` | `.genesis/55_DOCUMENTACAO_USUARIO.md` | Como explicar o produto a quem o usa? | sim |
 | `[[CHANGELOG]]` | `.genesis/60_CHANGELOG.md` | Como registrar o que mudou? | sim |
 | `[[LICENCA]]` | `.genesis/70_LICENCA.md` | Sob que termos isto é distribuído? | não |
 | `[[GATE_CODE]]` | `.genesis/80_GATE_CODE.md` | O código está bom o bastante? | sim |
@@ -46,6 +47,7 @@ para montar a estrutura.
 | `[[GATE_FRONTEND]]` | `.genesis/82_GATE_FRONTEND.md` | O frontend está conforme, rápido e mensurável? | se `interface_web: sim` |
 | `[[GATE_API]]` | `.genesis/83_GATE_API.md` | A API tem design consistente, previsível e sustentável? | se `tem_api: sim` |
 | `[[GATE_INPUT]]` | `.genesis/84_GATE_INPUT.md` | Todo dado externo é validado e tratado no servidor? | sim |
+| `[[RELATORIO_GATES]]` | `.genesis/85_RELATORIO_GATES.md` | O que os gates decidiram nesta fase? | sim |
 | `[[DIRETRIZES]]` | `.genesis/90_DIRETRIZES.md` | Como se trabalha neste repositório? | não |
 | `[[AGENTES]]` | `.genesis/95_AGENTES.md` | Como um agente descobre tudo isto? | não |
 
@@ -85,9 +87,12 @@ de projeto para projeto.** Os caminhos abaixo são o padrão sugerido; ajuste-os
 | `[[DOC_INDICE]]` | `docs/README.md` | `[[DOCUMENTACAO]]` | sim |
 | `[[DOC_MAPA]]` | `docs/MAPA_MODULOS.md` | `[[MAPA_MODULOS]]` | se houver código |
 | `[[DOC_METRICAS_FRONT]]` | `docs/metricas/frontend.md` | `[[GATE_FRONTEND]]` | se houver interface web |
+| `[[DIR_GATES]]` | `docs/gates/` | `[[RELATORIO_GATES]]` | quando houver fase concluída |
 | `[[DIR_SPEC]]` | `docs/spec/` | `[[DOCUMENTACAO]]` | quando houver domínio |
 | `[[DIR_API]]` | `docs/api/` | `[[DOCUMENTACAO]]` | se expuser API |
 | `[[DIR_RUNBOOK]]` | `docs/runbook/` | `[[DOCUMENTACAO]]` | se houver implantação |
+| `[[DIR_USUARIO]]` | `docs/usuario/` | `[[DOCUMENTACAO_USUARIO]]` | quando houver RF com efeito visível |
+| `[[DOC_NOVIDADES]]` | `docs/usuario/novidades.md` | `[[DOCUMENTACAO_USUARIO]]` | se existir `[[DIR_USUARIO]]` |
 | `[[DOC_GLOSSARIO]]` | `docs/GLOSSARIO.md` | `[[DOCUMENTACAO]]` | recomendado |
 
 ---

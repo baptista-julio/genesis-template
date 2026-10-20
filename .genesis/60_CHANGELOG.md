@@ -2,9 +2,14 @@
 
 Cria e mantém `[[DOC_CHANGELOG]]`.
 
-O changelog é escrito **para quem usa o software**, não para quem o escreve.
-Quem quer saber o que mudou linha a linha lê o versionador; quem lê o changelog
-quer saber o que o software passou a fazer.
+O changelog é escrito **para a equipe e para quem integra com o software**, não
+para quem o escreve. Quem quer saber o que mudou linha a linha lê o versionador;
+quem lê o changelog quer saber o que o software passou a fazer e por quê, com
+requisito, decisão e verificação ao alcance.
+
+Quem usa o produto sem conhecer a parte técnica lê outro registro:
+`[[DOC_NOVIDADES]]`, em linguagem simples. Ver **Novidades para quem usa**,
+abaixo.
 
 ---
 
@@ -101,7 +106,8 @@ identificador de seção, ou só `[Não publicado]` com entradas datadas.
 
 Quando o projeto usa gates (`[[DIRETRIZES]]` define isso), a entrada do
 changelog é escrita **depois** de `[[GATE_SECURITY]]` e `[[GATE_CODE]]`
-retornarem `PASS` — e de `[[GATE_INPUT]]`, `[[GATE_FRONTEND]]` ou `[[GATE_API]]`,
+retornarem `PASS`, e de `[[RELATORIO_GATES]]` gravar o relatório em
+`[[DIR_GATES]]` — e de `[[GATE_INPUT]]`, `[[GATE_FRONTEND]]` ou `[[GATE_API]]`,
 quando a fase tocou fronteira de entrada, a interface web ou a API. O gate
 aprovado é o que autoriza a entrada.
 
@@ -119,13 +125,35 @@ Formato enxuto:
 
   Decisões: leitura em fluxo em vez de carregar tudo em memória —
   arquivos de 50 mil linhas estouravam o limite (ADR-0007).
-  Verificação: gate de código PASS, gate de segurança PASS,
+  Verificação: relatório dos gates 2026-09-12-importacao (aprovado),
   cobertura 94%.
   Pendente: formato `.ods` não suportado; fora do escopo desta fase.
 ```
 
 Objetivo e direto. O changelog não é relatório de gate — se a sessão precisar
 de narrativa longa, ela pertence ao ADR.
+
+---
+
+## Novidades para quem usa
+
+*(Quando `[[DOC_NOVIDADES]]` consta no manifesto.)*
+
+Depois de escrever a entrada da sessão, decida para cada item se a pessoa que
+usa o produto percebe a mudança. Percebe: execute `[[DOCUMENTACAO_USUARIO]]`,
+seção **Novidades**, que escreve a entrada correspondente em
+`[[DOC_NOVIDADES]]`. Não percebe: o item fica só aqui.
+
+```text
+entrada do changelog                     [[DOC_NOVIDADES]]
+Importação de .xlsx (RF-001)       ──►   Novo: importar planilhas
+Leitura em fluxo (ADR-0007)        ──►   Melhorou: arquivos grandes mais rápidos
+Cobertura 94%                      ──►   (nada: a pessoa não percebe)
+Refatorado o módulo de importação  ──►   (nada)
+```
+
+Na publicação de versão, renomeie `Próxima atualização` em `[[DOC_NOVIDADES]]`
+junto com `[Não publicado]` aqui: os dois mudam na mesma alteração.
 
 ---
 
@@ -145,6 +173,30 @@ o changelog é onde essa justificativa fica localizável no tempo.
 - **Nunca reescreva entrada de versão publicada.** Errou? Corrija na versão
   seguinte, dizendo o que a anterior informou errado.
 
+### Arquivamento
+
+Um arquivo só é o padrão. Não crie changelog novo por quantidade de tarefas:
+quem lê procura "o que mudou desde a versão X", e arquivo fatiado quebra essa
+busca.
+
+Quando `[[DOC_CHANGELOG]]` passar de cerca de 500 linhas, mova as versões
+antigas para um arquivo por versão MAIOR (ou por ano, se o projeto não
+versiona):
+
+```text
+docs/CHANGELOG.md          atual, versão mais recente no topo
+docs/changelog/1.x.md      arquivado
+docs/changelog/2025.md     arquivado (projeto sem versão)
+```
+
+- Mova o texto sem alterá-lo: a regra de nunca reescrever versão publicada
+  vale também aqui.
+- Deixe no fim de `[[DOC_CHANGELOG]]` uma seção **Versões anteriores** com o
+  link para cada arquivo.
+- `[Não publicado]` e a versão corrente nunca são arquivados.
+- Atualize as citações ao changelog em outros documentos que apontem para as
+  versões movidas.
+
 Se `[[DIRETRIZES]]` mandar ler as primeiras linhas do changelog no início de
 cada sessão, este arquivo é contexto de trabalho além de registro — mais uma
 razão para o topo ser legível e atual.
@@ -159,4 +211,6 @@ Criado | atualizado
 Entradas adicionadas: N
 Versão publicada: <se houve>
 Entradas sem referência a requisito ou ADR: N
+Arquivado: <versões movidas e destino>, ou nenhum
+Entradas com efeito visível sem novidade em [[DOC_NOVIDADES]]: N   <- precisa ser 0
 ```

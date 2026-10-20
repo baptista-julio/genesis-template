@@ -91,13 +91,15 @@ porque reflete dependência real de informação:
 5. [[ARQUITETURA]]     que forma ele deve ter      -> gera ADR inicial
 6. [[ADR]]             como registrar decisões
 7. [[DOCUMENTACAO]]    como documentar e manter
-8. [[CHANGELOG]]       como registrar mudanças
-9. [[GATE_API]]        régua de design de API
-10. [[GATE_FRONTEND]]  régua de frontend, SEO e métricas
-11. [[GATE_INPUT]]     régua de tratamento de input
-12. [[GATE_SECURITY]]  régua de segurança
-13. [[GATE_CODE]]      régua de qualidade de código (último gate)
-14. [[AGENTES]]        como um agente descobre tudo isto
+8. [[DOCUMENTACAO_USUARIO]]  guia de quem usa o produto
+9. [[CHANGELOG]]       como registrar mudanças
+10. [[GATE_API]]       régua de design de API
+11. [[GATE_FRONTEND]]  régua de frontend, SEO e métricas
+12. [[GATE_INPUT]]     régua de tratamento de input
+13. [[GATE_SECURITY]]  régua de segurança
+14. [[GATE_CODE]]      régua de qualidade de código (último gate)
+15. [[RELATORIO_GATES]]  relatório final da fase -> [[DIR_GATES]]
+16. [[AGENTES]]        como um agente descobre tudo isto
 ```
 
 Aplique os cortes condicionais, lendo o perfil:
@@ -107,7 +109,7 @@ Aplique os cortes condicionais, lendo o perfil:
 | `distribuicao: fechado` | `[[LICENCA]]` foca em licença proprietária e conformidade das dependências, não em escolher licença aberta |
 | `tem_dependencias: nao` | `[[DOC_ATRIBUICOES]]` não é gerado |
 | `tem_api: nao` | `[[DIR_API]]` não é gerado, e `[[GATE_API]]` não entra no roteiro |
-| `estagio: bootstrap` | `[[DOCUMENTACAO]]` roda em modo criação; não há código para auditar |
+| `estagio: bootstrap` | `[[DOCUMENTACAO]]` roda em modo criação; não há código para auditar. `[[DOCUMENTACAO_USUARIO]]` só é instalado: sem RF `Implementado`, `[[DIR_USUARIO]]` não é criado |
 | `estagio: maduro` ou `legado` | `[[DOCUMENTACAO]]` roda em modo reorganização; o código é a fonte da verdade |
 | `equipe: solo` | Cabeçalho de documento dispensa o campo `Owner` |
 | `tem_interface: nao` | Revisão de linguagem de interface do `[[GATE_CODE]]` fica `N/A`, e `[[GATE_FRONTEND]]` não entra no roteiro |
@@ -310,8 +312,11 @@ mais por ele — está em `[[DIRETRIZES]]`, e roda a cada fase de implementaçã
   ->  [[GATE_SECURITY]]
   ->  [[GATE_CODE]]
   ->  [[DOCUMENTACAO]] incremental, se a § 21.2 acusar
+  ->  [[DOCUMENTACAO_USUARIO]], se a § 21.2 acusar guia ausente ou desatualizado
       (e [[GATE_CODE]] de novo, até a § 21.2 ficar limpa)
-  ->  [[DOC_CHANGELOG]]
+  ->  [[RELATORIO_GATES]], grava em [[DIR_GATES]]
+  ->  [[DOC_CHANGELOG]], citando o relatório
+  ->  [[DOC_NOVIDADES]], se a mudança é percebida por quem usa o produto
 ```
 
 Esses prompts rodam a partir de `[[DIR_GOVERNANCA]]`, depois que `.genesis/`

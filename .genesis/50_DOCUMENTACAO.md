@@ -200,6 +200,8 @@ docs/
 
   api/               só se tem_api
   runbook/           só se houver implantação
+  usuario/           só se houver RF com efeito visível; ver [[DOCUMENTACAO_USUARIO]]
+  gates/             relatório final de cada fase; ver [[RELATORIO_GATES]]
   test/
 ```
 
@@ -299,6 +301,15 @@ ferramentas.
 
 ---
 
+## Documentação do usuário
+
+Quem usa o produto lê outra documentação, em `[[DIR_USUARIO]]`, sem a parte
+técnica. Ela nasce desta e é mantida por `[[DOCUMENTACAO_USUARIO]]`, ao fim da
+fase, depois do modo incremental. Este prompt não a escreve: só mantém a
+coluna **Guia do usuário** coerente quando um RF muda de lugar ou é revogado.
+
+---
+
 ## Modo Incremental
 
 O modo usado no dia a dia. Os outros três montam ou refazem a documentação;
@@ -343,7 +354,7 @@ acontece de carona.
    | Modelo de dados | Seção de dados, diagrama ER, runbook de backup |
    | Fronteira entre módulos | `[[DOC_ARQUITETURA]]`, grafo de dependências, ADR |
    | Operação, variável de ambiente | `[[DIR_RUNBOOK]]` |
-   | Requisito atendido | Matriz de rastreabilidade em `[[DOC_REQUISITOS_F]]` |
+   | Requisito atendido | Matriz de rastreabilidade em `[[DOC_REQUISITOS_F]]`, inclusive a coluna **Guia do usuário** (preenchida por `[[DOCUMENTACAO_USUARIO]]`) |
    | Termo novo do domínio | `[[DOC_GLOSSARIO]]` |
    | Documento novo criado | `[[DOC_INDICE]]`, e o `MANIFEST.md` se for artefato de primeira ordem |
 
@@ -373,9 +384,13 @@ implementação
     v
 DOCUMENTACAO         modo incremental  <- aqui
     v
+[[DOCUMENTACAO_USUARIO]]  guia de quem usa, derivado desta documentação
+    v
 [[GATE_CODE]]        re-executa § 21.2, precisa ficar limpa
     v
 [[DOC_CHANGELOG]]    o PASS dos gates autoriza a entrada
+    v
+[[DOC_NOVIDADES]]    se a mudança é percebida por quem usa o produto
 ```
 
 Documentação vem antes do changelog por um motivo prático: a entrada do

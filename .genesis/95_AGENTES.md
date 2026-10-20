@@ -84,8 +84,10 @@ um prompt autocontido; execute o que a tarefa pedir.
 | Revisar qualidade ao fim da fase (último gate) | `<gov>/80_GATE_CODE.md` |
 | Registrar uma decisão arquitetural | `<gov>/40_ADR.md` |
 | Criar ou atualizar documentação | `<gov>/50_DOCUMENTACAO.md` |
+| Criar ou atualizar o guia de quem usa o produto | `<gov>/55_DOCUMENTACAO_USUARIO.md` |
 | Tirar cara de IA de um texto ou de uma interface | `<gov>/HUMANIZER.md` |
 | Gerar ou atualizar o mapa de módulos | `<gov>/MAPA_MODULOS.md` |
+| Consolidar os gates da fase em relatório | `<gov>/85_RELATORIO_GATES.md` |
 | Registrar o que mudou | `<gov>/60_CHANGELOG.md` |
 
 Os prompts se referenciam por identificador `[[ID]]`. A tabela que
@@ -105,8 +107,14 @@ pacote Genesis para a raiz e execute o orquestrador dele.
 4. `<gov>/81_GATE_SECURITY.md` — precisa retornar PASS
 5. `<gov>/80_GATE_CODE.md` — precisa retornar PASS
 6. Se a seção 21.2 acusar documentação desatualizada:
-   `<gov>/50_DOCUMENTACAO.md` em modo incremental, depois volte ao passo 5
-7. Entrada em `<caminho de [[DOC_CHANGELOG]]>`
+   `<gov>/50_DOCUMENTACAO.md` em modo incremental e, se o achado for guia do
+   usuário ausente ou desatualizado, `<gov>/55_DOCUMENTACAO_USUARIO.md`;
+   depois volte ao passo 5
+7. `<gov>/85_RELATORIO_GATES.md` — grava o relatório da fase em
+   `<caminho de [[DIR_GATES]]>`, aprovada ou não
+8. Entrada em `<caminho de [[DOC_CHANGELOG]]>`, citando o relatório, e, se a mudança é percebida por
+   quem usa o produto, em `<caminho de [[DOC_NOVIDADES]]>`
+   (`<gov>/55_DOCUMENTACAO_USUARIO.md`, seção Novidades)
 
 O PASS dos gates é o que autoriza a entrada no changelog.
 

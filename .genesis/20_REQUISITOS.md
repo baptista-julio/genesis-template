@@ -242,11 +242,17 @@ Inclua no RNF de licenciamento, ou como RNF próprio:
 
 Ao final, monte a matriz em `[[DOC_REQUISITOS_F]]`:
 
-| Requisito | Implementação | Teste | ADR |
-| --- | --- | --- | --- |
-| RF-001 | `src/importacao/` | `tests/importacao/` | ADR-0004 |
+| Requisito | Implementação | Teste | ADR | Guia do usuário |
+| --- | --- | --- | --- | --- |
+| RF-001 | `src/importacao/` | `tests/importacao/` | ADR-0004 | `usuario/importar-planilha.md` |
+| RF-002 | `src/log/` | `tests/log/` | — | n/a — sem efeito visível |
 
 Requisito `Implementado` sem teste é achado, não detalhe. Reporte.
+
+A coluna **Guia do usuário** é a ponte para `[[DIR_USUARIO]]`, mantida por
+`[[DOCUMENTACAO_USUARIO]]`. Fica aqui, e não no guia, para que o leitor leigo
+nunca encontre identificador interno. Requisito sem efeito visível recebe `n/a`
+e um motivo; coluna vazia em RF `Implementado` é achado.
 
 ---
 

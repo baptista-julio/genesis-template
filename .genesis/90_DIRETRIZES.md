@@ -93,12 +93,18 @@ aplicável retornou `PASS`.
 5. Execute `[[GATE_CODE]]`. É essencial e vem por último de propósito: ele
    avalia também o código alterado pelas correções dos gates anteriores.
 6. **Se a § 21.2 do gate de código acusar divergência**, execute
-   `[[DOCUMENTACAO]]` em modo incremental sobre os documentos apontados e
-   re-execute `[[GATE_CODE]]` até a seção ficar limpa. Documentação
-   desatualizada reprova a fase como qualquer outro BLOCKER.
-7. **Depois dos gates, preencha `[[DOC_CHANGELOG]]`** com a entrada da sessão.
-   O `PASS` é o que autoriza a entrada. Resumido e objetivo: o que o software
-   passa a fazer, decisões, verificação, pendências.
+   `[[DOCUMENTACAO]]` em modo incremental sobre os documentos apontados e,
+   se o achado for guia do usuário ausente ou desatualizado,
+   `[[DOCUMENTACAO_USUARIO]]`. Re-execute `[[GATE_CODE]]` até a seção ficar
+   limpa. Documentação desatualizada reprova a fase como qualquer outro
+   BLOCKER.
+7. **Com os gates terminados, execute `[[RELATORIO_GATES]]`.** Ele consolida
+   o resultado da fase e grava em `[[DIR_GATES]]`, aprovada ou não.
+8. **Depois, preencha `[[DOC_CHANGELOG]]`** com a entrada da sessão, citando o
+   relatório. O `PASS` registrado é o que autoriza a entrada. Resumido e objetivo: o que o software
+   passa a fazer, decisões, verificação, pendências. Se a mudança é percebida
+   por quem usa o produto, escreva também a entrada de `[[DOC_NOVIDADES]]`,
+   em linguagem simples (`[[DOCUMENTACAO_USUARIO]]`).
 
 ### Segurança
 
