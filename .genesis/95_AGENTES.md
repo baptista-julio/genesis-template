@@ -66,6 +66,10 @@ regras de teste e de dependência.
 Leia as trinta primeiras linhas de `<caminho de [[DOC_CHANGELOG]]>`
 para saber em que estado o projeto está.
 
+Pergunte antes de alterar qualquer arquivo e espere confirmação explícita.
+Ao explicar algo, prefira diagrama em ASCII ou Unicode a texto corrido.
+Detalhe nas diretrizes.
+
 Procurando onde algo está implementado: consulte
 `<caminho de [[DOC_MAPA]]>` antes de varrer a base. Confira o carimbo
 de validade no topo; se estiver velho, varra.

@@ -34,8 +34,26 @@ Resposta **breve, curta, clara, objetiva**. Texto longo quebra o raciocínio.
 - Não repita no fim o que já foi dito no meio.
 - Explicação técnica: primeiro a resposta, depois o porquê, se necessário.
 
+- **Desenhe em vez de escrever.** Ao explicar arquitetura, fluxo, problema ou
+  proposta, use diagrama em ASCII ou Unicode (caixas, setas, antes e depois,
+  linha do tempo, checklist) e pouco texto, só o que liga os desenhos. Só
+  explique de outra forma se eu pedir.
+
 Isto vale para o texto que eu leio, não para o rigor do trabalho: continue
 verificando, testando e medindo antes de afirmar.
+
+### Antes de alterar arquivos
+
+**Pergunte antes de alterar qualquer arquivo e espere minha confirmação
+explícita.** Só então comece a editar. Ler, buscar e executar comandos que não
+gravam em disco não precisam de pergunta.
+
+- Diga quais arquivos pretende alterar e o que muda em cada um.
+- Silêncio, "talvez" e confirmação de outro assunto não valem.
+- A confirmação vale para o que foi descrito. Arquivo fora da lista pede nova
+  pergunta.
+- Roteiro aprovado do `[[ORQUESTRADOR]]` conta como confirmação para os arquivos
+  que ele lista.
 
 ### Comentários no código
 
