@@ -14,10 +14,16 @@ Chama-se um prompt; ele ramifica no resto.
 2. Peça ao modelo: **"Execute `.genesis/00_ORQUESTRADOR.md`"**.
 
 O orquestrador diagnostica o que falta, monta o roteiro, mostra para
-aprovação e executa.
+aprovação e executa. No mesmo roteiro, pergunta quais skills opcionais
+instalar (`frontend-design`, `diagnosing-bugs` e outras, via `npx skills add`).
 
-Rodar de novo no mesmo projeto é seguro: ele detecta o que já existe e cobre
-só as lacunas.
+Ao terminar, instala no projeto só o que o ciclo de trabalho continua usando —
+gates, ADR, documentação, changelog e ferramentas — em `docs/governanca/`, e
+**remove `.genesis/`**. A coluna **Persiste** do `MANIFEST.md` define o que
+fica.
+
+Rodar de novo no mesmo projeto é seguro: copie `.genesis/` outra vez; ele lê o
+perfil do manifesto instalado, detecta o que já existe e cobre só as lacunas.
 
 ---
 
@@ -32,10 +38,15 @@ MANIFEST           tabela ID -> caminho + perfil do projeto
 30_ARQUITETURA     que forma deve ter              -> entrevista + ADR
 40_ADR             como registrar decisões         -> adr/
 50_DOCUMENTACAO    como documentar e manter        -> docs/
+55_DOCUMENTACAO_USUARIO  guia de quem usa o produto -> docs/usuario/
 60_CHANGELOG       como registrar mudanças         -> CHANGELOG
 70_LICENCA         sob que termos existe           -> LICENSE, ATRIBUICOES
 80_GATE_CODE       o código está bom?              -> PASS | FAIL
 81_GATE_SECURITY   o código está seguro?           -> PASS | FAIL
+82_GATE_FRONTEND   o frontend está medido?         -> PASS | FAIL
+83_GATE_API        a API tem design coerente?      -> PASS | FAIL
+84_GATE_INPUT      todo input é tratado no servidor? -> PASS | FAIL
+85_RELATORIO_GATES o que os gates decidiram na fase?  -> docs/gates/
 90_DIRETRIZES      como se trabalha aqui           -> CLAUDE.md
 95_AGENTES         como um agente descobre isto    -> AGENTS.md
 
@@ -58,7 +69,7 @@ Ao final da fase, execute ../prompts/...   errado
 O `MANIFEST.md` é a única tabela que traduz ID em caminho. Consequências:
 
 - **Nenhum prompt depende da estrutura de pastas do projeto.** Projeto que usa
-  `documentacao/` em vez de `docs/` muda uma linha do manifesto, e os onze
+  `documentacao/` em vez de `docs/` muda uma linha do manifesto, e todos os
   prompts continuam corretos.
 - **Nenhuma referência quebra em silêncio.** ID ausente do manifesto é
   detectável; caminho relativo errado só aparece quando alguém tenta abrir.
@@ -107,7 +118,7 @@ Leia .genesis/MANIFEST.md e depois execute .genesis/00_ORQUESTRADOR.md
 
 Atalhos específicos de ferramenta — skill do Claude, comando TOML do Gemini,
 regra do Cursor — são opcionais e ficam documentados em `95_AGENTES`. Todos são
-ponteiros de poucas linhas; o conteúdo nunca sai de `.genesis/`.
+ponteiros de poucas linhas; o conteúdo fica em `docs/governanca/`.
 
 ---
 

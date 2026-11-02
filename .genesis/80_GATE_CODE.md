@@ -1,7 +1,9 @@
 # Quality Gate — Código
 
 > Prompt do pacote Genesis. Referências `[[ID]]` resolvem pelo `MANIFEST.md`.
-> Executado ao final de cada fase de implementação, antes de `[[GATE_SECURITY]]`.
+> Último gate da fase, executado depois de `[[GATE_API]]`, `[[GATE_FRONTEND]]`,
+> `[[GATE_INPUT]]` e `[[GATE_SECURITY]]` — os que se aplicam já retornaram PASS.
+> Por vir por último, avalia também o código alterado pelas correções deles.
 > A régua deste gate é calibrada por `[[DOC_REQUISITOS_NF]]` (categoria
 > Manutenibilidade) e pelas fronteiras declaradas em `[[DOC_ARQUITETURA]]`.
 > Quando o projeto definir limiar próprio, **o do projeto prevalece** sobre o
@@ -478,6 +480,9 @@ Investigue também:
 * autenticação;
 * serialização insegura.
 
+O tratamento sistemático de entrada — validação no servidor, limites, vetores
+por tecnologia — é avaliado por `[[GATE_INPUT]]`, que roda antes deste gate.
+
 ---
 
 # 20. CONTRATOS E COMPATIBILIDADE
@@ -496,6 +501,11 @@ Verifique se foram alterados:
 Breaking changes não solicitadas são BLOCKER.
 
 Não altere contratos existentes silenciosamente.
+
+Esta seção pergunta **se** o contrato mudou. Se o que mudou foi a API pública,
+o **design** dessa mudança — nomenclatura, método, status, paginação,
+versionamento, consistência com os demais endpoints — é avaliado por
+`[[GATE_API]]`, que roda antes deste gate.
 
 ---
 
@@ -567,12 +577,24 @@ documentação desatualizada é pior que ausente: tem aparência de verdade.
    `Atualizado em` e `Versão` coerentes com a alteração. Campo `Status` ainda
    `Proposto` em funcionalidade que passou a existir é achado.
 
+6. **Confira o guia do usuário.** *(Quando `[[DIR_USUARIO]]` consta no
+   manifesto.)* Na matriz de rastreabilidade de `[[DOC_REQUISITOS_F]]`, leia a
+   coluna **Guia do usuário** dos RF `Implementado` ou que passaram a
+   `Implementado` na fase:
+
+   | Coluna | Verificação |
+   | --- | --- |
+   | Vazia | Achado: ninguém decidiu |
+   | `n/a — <motivo>` | Confira que o motivo é plausível: RF cujo critério de aceitação descreve tela, passo ou mensagem não é `n/a` |
+   | Caminho | O arquivo existe, e foi alterado no diff se o comportamento visível do RF mudou |
+
 ### Critérios
 
 ```text
 CODIGO_COM_COMPORTAMENTO_NOVO_SEM_DOC = 0
 CONTRATO_PUBLICO_ALTERADO_SEM_DOC = 0
 DOC_IMPLEMENTADO_DIVERGENTE_DO_CODIGO = 0
+RF_IMPLEMENTADO_SEM_GUIA_DO_USUARIO = 0
 ```
 
 **BLOCKER:**
@@ -584,10 +606,15 @@ DOC_IMPLEMENTADO_DIVERGENTE_DO_CODIGO = 0
   não faz mais. A divergência é defeito, não dívida: quem lê é induzido ao
   erro, e a documentação inteira perde crédito;
 * decisão arquitetural tomada na fase sem ADR correspondente
-  (ver `[[ADR]]` para o critério do que merece registro).
+  (ver `[[ADR]]` para o critério do que merece registro);
+* RF `Implementado` com a coluna **Guia do usuário** vazia, ou com `n/a` cujo
+  critério de aceitação descreve comportamento visível.
 
 **WARNING:**
 
+* comportamento visível de RF alterado na fase e guia indicado na matriz não
+  alterado no diff;
+* caminho da coluna **Guia do usuário** que não existe;
 * documento alterado sem atualizar `Atualizado em` ou `Versão`;
 * campo `Implementação:` apontando para caminho que não existe mais;
 * link interno quebrado introduzido pela alteração;
@@ -602,6 +629,10 @@ Liste o mapa que você montou, mesmo quando não houver achado:
 src/importacao/leitor.rs  -> docs/spec/importacao/formatos.md   atualizado
 src/importacao/mapa.rs    -> docs/spec/importacao/pipeline.md   NAO atualizado
 src/util/texto.rs         -> nenhum documento reivindica        refatoração
+
+RF-001 -> usuario/importar-planilha.md                          atualizado
+RF-004 -> (vazio)                                               ACHADO
+RF-007 -> n/a — rotina interna de limpeza                       ok
 ```
 
 Nenhum documento reivindicar um arquivo não é necessariamente achado — código
@@ -611,7 +642,8 @@ implementa comportamento que alguém consome.
 ### Correção
 
 Achado aqui **não se resolve no gate**. Execute `[[DOCUMENTACAO]]` em modo
-incremental sobre os documentos apontados, depois re-execute esta seção.
+incremental sobre os documentos apontados e, para achado de guia do usuário,
+`[[DOCUMENTACAO_USUARIO]]`; depois re-execute esta seção.
 
 Não escreva a documentação faltante de dentro do gate: o gate mede, não
 produz. Misturar as duas coisas faz o gate virar juiz do próprio trabalho, que
@@ -662,6 +694,11 @@ opaco. Leia as strings novas como quem não conhece o modelo de dados por trás.
 Achados aqui são WARNING, salvo quando a string aparece em fluxo de erro
 crítico — mensagem que a pessoa lê justamente quando já está com problema, e
 que precisa dizer o que fazer a seguir.
+
+Marcação, desempenho, indexabilidade e acessibilidade da interface **não são
+avaliados aqui** — são o escopo do `[[GATE_FRONTEND]]`, que roda antes deste
+gate quando `interface_web: sim`. Este gate olha o código; aquele olha
+o que o navegador recebeu.
 
 ---
 

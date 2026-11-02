@@ -27,13 +27,19 @@ Cada ferramenta lê um arquivo diferente ao abrir um projeto:
 Agente que não lê nada continua funcionando — basta apontar o caminho:
 `leia .genesis/00_ORQUESTRADOR.md e execute`.
 
+**Caminhos.** `.genesis/` é removida ao fim da montagem, e o ciclo de trabalho
+passa a rodar a partir de `[[DIR_GOVERNANCA]]`. Todo ponteiro gerado aqui cita
+`<gov>/` — o caminho real de `[[DIR_GOVERNANCA]]`, resolvido antes de escrever
+—, nunca `.genesis/`. Só os prompts que persistem entram nos ponteiros; a
+coluna **Persiste** do `MANIFEST.md` diz quais.
+
 ---
 
 ## Princípio
 
 **Uma fonte, muitos ponteiros.**
 
-O conteúdo vive em `.genesis/` e em `[[DOC_DIRETRIZES]]`. Todo arquivo gerado
+O conteúdo vive em `[[DIR_GOVERNANCA]]` e em `[[DOC_DIRETRIZES]]`. Todo arquivo gerado
 aqui é ponteiro curto — nunca cópia. Conteúdo duplicado em cinco lugares
 diverge em três semanas, e a partir daí cada agente segue uma versão diferente
 das regras.
@@ -60,41 +66,61 @@ regras de teste e de dependência.
 Leia as trinta primeiras linhas de `<caminho de [[DOC_CHANGELOG]]>`
 para saber em que estado o projeto está.
 
+Pergunte antes de alterar qualquer arquivo e espere confirmação explícita.
+Ao explicar algo, prefira diagrama em ASCII ou Unicode a texto corrido.
+Detalhe nas diretrizes.
+
 Procurando onde algo está implementado: consulte
 `<caminho de [[DOC_MAPA]]>` antes de varrer a base. Confira o carimbo
 de validade no topo; se estiver velho, varra.
 
 ## Governança
 
-Este projeto usa o pacote Genesis, em `.genesis/`. Cada arquivo é um
-prompt autocontido; execute o que a tarefa pedir.
+Este projeto usa prompts do pacote Genesis, em `<gov>/`. Cada arquivo é
+um prompt autocontido; execute o que a tarefa pedir.
 
 | Tarefa | Execute |
 | --- | --- |
-| Montar ou completar a estrutura do projeto | `.genesis/00_ORQUESTRADOR.md` |
-| Revisar qualidade ao fim de uma fase | `.genesis/80_GATE_CODE.md` |
-| Revisar segurança, após o gate de código | `.genesis/81_GATE_SECURITY.md` |
-| Registrar uma decisão arquitetural | `.genesis/40_ADR.md` |
-| Criar ou atualizar documentação | `.genesis/50_DOCUMENTACAO.md` |
-| Tirar cara de IA de um texto ou de uma interface | `.genesis/tools/HUMANIZER.md` |
-| Gerar ou atualizar o mapa de módulos | `.genesis/tools/MAPA_MODULOS.md` |
-| Registrar o que mudou | `.genesis/60_CHANGELOG.md` |
-| Levantar ou revisar requisitos | `.genesis/20_REQUISITOS.md` |
-| Decidir ou revisar a arquitetura | `.genesis/30_ARQUITETURA.md` |
+| Revisar o design da API (primeiro gate) | `<gov>/83_GATE_API.md` |
+| Revisar frontend, SEO e métricas, após o gate de API | `<gov>/82_GATE_FRONTEND.md` |
+| Revisar o tratamento de input, após o gate de frontend | `<gov>/84_GATE_INPUT.md` |
+| Revisar segurança, após o gate de input | `<gov>/81_GATE_SECURITY.md` |
+| Revisar qualidade ao fim da fase (último gate) | `<gov>/80_GATE_CODE.md` |
+| Registrar uma decisão arquitetural | `<gov>/40_ADR.md` |
+| Criar ou atualizar documentação | `<gov>/50_DOCUMENTACAO.md` |
+| Criar ou atualizar o guia de quem usa o produto | `<gov>/55_DOCUMENTACAO_USUARIO.md` |
+| Tirar cara de IA de um texto ou de uma interface | `<gov>/HUMANIZER.md` |
+| Gerar ou atualizar o mapa de módulos | `<gov>/MAPA_MODULOS.md` |
+| Consolidar os gates da fase em relatório | `<gov>/85_RELATORIO_GATES.md` |
+| Registrar o que mudou | `<gov>/60_CHANGELOG.md` |
 
 Os prompts se referenciam por identificador `[[ID]]`. A tabela que
-traduz identificador em caminho está em `.genesis/MANIFEST.md` —
+traduz identificador em caminho está em `<gov>/MANIFEST.md` —
 leia-o antes de executar qualquer prompt do pacote.
+
+Montar de novo a estrutura, revisar requisitos ou arquitetura: copie o
+pacote Genesis para a raiz e execute o orquestrador dele.
 
 ## Ao terminar uma fase
 
-1. `.genesis/80_GATE_CODE.md` — precisa retornar PASS
-2. Se a seção 21.2 acusar documentação desatualizada:
-   `.genesis/50_DOCUMENTACAO.md` em modo incremental, depois volte ao passo 1
-3. `.genesis/81_GATE_SECURITY.md` — precisa retornar PASS
-4. Entrada em `<caminho de [[DOC_CHANGELOG]]>`
+1. `<gov>/83_GATE_API.md` — se a fase tocou a API; precisa retornar PASS
+2. `<gov>/82_GATE_FRONTEND.md` — se a fase tocou a interface web; precisa
+   retornar PASS e deixar a medição registrada
+3. `<gov>/84_GATE_INPUT.md` — se a fase criou ou alterou ponto de entrada de
+   dado externo; precisa retornar PASS
+4. `<gov>/81_GATE_SECURITY.md` — precisa retornar PASS
+5. `<gov>/80_GATE_CODE.md` — precisa retornar PASS
+6. Se a seção 21.2 acusar documentação desatualizada:
+   `<gov>/50_DOCUMENTACAO.md` em modo incremental e, se o achado for guia do
+   usuário ausente ou desatualizado, `<gov>/55_DOCUMENTACAO_USUARIO.md`;
+   depois volte ao passo 5
+7. `<gov>/85_RELATORIO_GATES.md` — grava o relatório da fase em
+   `<caminho de [[DIR_GATES]]>`, aprovada ou não
+8. Entrada em `<caminho de [[DOC_CHANGELOG]]>`, citando o relatório, e, se a mudança é percebida por
+   quem usa o produto, em `<caminho de [[DOC_NOVIDADES]]>`
+   (`<gov>/55_DOCUMENTACAO_USUARIO.md`, seção Novidades)
 
-O PASS dos dois gates é o que autoriza a entrada no changelog.
+O PASS dos gates é o que autoriza a entrada no changelog.
 
 Documentação desatualizada reprova a fase como qualquer outro BLOCKER — a
 seção 21.2 do gate compara o diff contra o campo `Implementação:` dos
@@ -158,11 +184,11 @@ Em `.claude/commands/<nome>.md`. Cada arquivo vira `/<nome>`:
 description: Gate de qualidade de código ao fim de uma fase
 ---
 
-Execute `.genesis/80_GATE_CODE.md` sobre as alterações atuais.
+Execute `<gov>/80_GATE_CODE.md` sobre as alterações atuais.
 ```
 
 Vale para os três ou quatro fluxos de uso diário — tipicamente `/gate-code`,
-`/gate-security`, `/adr`. Criar um para os onze prompts é ruído: o resto se
+`/gate-security`, `/adr`. Criar um para os treze prompts é ruído: o resto se
 chama pelo caminho, e é chamado raramente.
 
 ### Comandos — Gemini CLI
@@ -171,7 +197,7 @@ Em `.gemini/commands/<nome>.toml`:
 
 ```toml
 description = "Gate de qualidade de código"
-prompt = "Execute `.genesis/80_GATE_CODE.md` sobre as alterações atuais."
+prompt = "Execute `<gov>/80_GATE_CODE.md` sobre as alterações atuais."
 ```
 
 ### Cursor
@@ -184,7 +210,7 @@ description: Governança do projeto
 alwaysApply: true
 ---
 
-Este projeto usa o pacote Genesis em `.genesis/`.
+Este projeto usa prompts do pacote Genesis em `<gov>/`.
 Antes de alterar código, leia `AGENTS.md`.
 ```
 
@@ -200,8 +226,11 @@ Nenhum arquivo a gerar. Registre em `AGENTS.md`, ou diga ao usuário, que
 qualquer agente é instruído assim:
 
 ```text
-Leia .genesis/MANIFEST.md e depois execute .genesis/00_ORQUESTRADOR.md
+Leia <gov>/MANIFEST.md e depois execute <gov>/<prompt da tarefa>
 ```
+
+Para montar a estrutura, antes da instalação ou depois de copiar o pacote de
+novo: `Leia .genesis/MANIFEST.md e depois execute .genesis/00_ORQUESTRADOR.md`.
 
 O pacote não depende de ferramenta, formato proprietário ou carregamento
 automático. Essa é a propriedade que o torna portátil, e ela não deve ser
@@ -227,7 +256,8 @@ CAMADA DE AGENTES
 [[DOC_AGENTES]]: criado | atualizado em <caminho>
 Ponteiros adicionais: lista, ou nenhum
 Comandos verificados: N de M   <- precisa ser N = M
-Caminhos citados que não existem: lista  <- precisa ser vazia
+Caminhos citados que não existem: lista  <- precisa ser vazia, depois da instalação
+Citações a .genesis/: N                   <- precisa ser 0
 Agentes cobertos automaticamente: lista
 Agentes que exigem caminho explícito: lista
 ```

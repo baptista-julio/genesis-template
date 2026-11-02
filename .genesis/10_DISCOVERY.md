@@ -37,6 +37,7 @@ pergunta:
 | `tem_api` | rotas, controladores, especificação OpenAPI |
 | `tem_banco` | migrações, ORM, cliente de banco |
 | `tem_interface` | componentes, templates, arquivos de estilo |
+| `interface_web` | `index.html`, framework de front, servidor de ativos estáticos |
 | `tem_dependencias` | lockfile não vazio |
 
 Apresente assim:
@@ -93,7 +94,19 @@ local de uma pessoa e serviço público exposto não merecem o mesmo rigor.
 É o que mais influencia `[[ARQUITETURA]]`. Equipe de uma pessoa é restrição
 arquitetural real, não detalhe de gestão.
 
-### 5. Estado e ambição
+### 5. Descoberta pela busca
+
+*(só quando `interface_web: sim`)*
+
+> Estas páginas precisam ser encontradas por mecanismo de busca, ou tudo vive
+> atrás de autenticação?
+
+Preenche `indexavel` e define o alcance do `[[GATE_FRONTEND]]`: painel interno
+não é avaliado por indexabilidade, mas continua sendo avaliado por desempenho,
+responsividade e acessibilidade. Errar isto para o lado da indexação gera
+trabalho inútil; errar para o outro lado deixa o produto invisível.
+
+### 6. Estado e ambição
 
 > O que já existe e funciona hoje, e onde isto deveria chegar em um ano?
 

@@ -1,12 +1,13 @@
 # Quality Gate — Segurança
 
 > Prompt do pacote Genesis. Referências `[[ID]]` resolvem pelo `MANIFEST.md`.
-> Segunda etapa obrigatória, executada depois de `[[GATE_CODE]]` retornar PASS.
+> Etapa obrigatória, executada depois de `[[GATE_API]]`, `[[GATE_FRONTEND]]` e
+> `[[GATE_INPUT]]` (os que se aplicam) retornarem PASS e antes de `[[GATE_CODE]]`.
 > A régua de licenças vem de `[[DOC_REQUISITOS_NF]]`; o inventário de
 > dependências, de `[[DOC_ATRIBUICOES]]`.
 
 
-Você acabou de concluir uma fase de implementação **e já passou pelo Quality Gate de código**. Este gate é a segunda etapa, obrigatória, e avalia exclusivamente **segurança**.
+Você acabou de concluir uma fase de implementação **e já passou pelos gates anteriores que se aplicam**. Este gate é obrigatório e avalia exclusivamente **segurança**.
 
 Seu objetivo NÃO é confirmar que o código "parece seguro". Seu objetivo é atuar como um **Senior AppSec Engineer / Security Reviewer independente**, com mentalidade de atacante, tentando encontrar formas de comprometer, contornar ou abusar do código que acabou de ser produzido.
 
@@ -41,7 +42,7 @@ Antes de aplicar os checklists, determine, a partir do diff real:
 - Quais arquivos/módulos foram tocados;
 - Se a alteração introduz ou modifica: **endpoints/rotas, autenticação, autorização, sessão, entrada de usuário, queries, serialização, dependências externas, chamadas de rede, arquivos de configuração, segredos, logs.**
 
-Use a tabela abaixo para decidir **quais categorias OWASP são aplicáveis a este diff especificamente** — não gaste esforço revisando A07 (Autenticação) se o diff é só um ajuste de CSS. Isso preserva o princípio de proporcionalidade do gate de código.
+Use a tabela abaixo para decidir **quais categorias OWASP são aplicáveis a este diff especificamente** — não gaste esforço revisando A07 (Autenticação) se o diff é só um ajuste de CSS. Isso preserva o princípio de proporcionalidade do `[[GATE_CODE]]`.
 
 | O diff toca em... | Categorias obrigatórias |
 |---|---|
@@ -179,6 +180,8 @@ Critério completo no RNF de licenciamento em `[[DOC_REQUISITOS_NF]]`.
 - Toda query nova usa parametrização/ORM, nunca concatenação de string com input do usuário?
 - Algum `eval`, `exec`, `os.system`, `subprocess` com `shell=True` recebe dado de fora sem sanitização?
 - Templates renderizados com dado de usuário permitem Server-Side Template Injection?
+
+A validação sistemática de cada fronteira de entrada (tipo, formato, tamanho, allowlist, normalização, vetores por tecnologia) é avaliada com entrada hostil executada por `[[GATE_INPUT]]`, que roda antes deste gate.
 
 ### A06 — Design Inseguro
 **Sem ferramenta automatizada confiável — revisão manual obrigatória**, inspirada no método de *use/misuse case* do WSTG.

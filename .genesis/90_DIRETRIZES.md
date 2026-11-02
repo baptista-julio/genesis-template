@@ -34,8 +34,26 @@ Resposta **breve, curta, clara, objetiva**. Texto longo quebra o raciocínio.
 - Não repita no fim o que já foi dito no meio.
 - Explicação técnica: primeiro a resposta, depois o porquê, se necessário.
 
+- **Desenhe em vez de escrever.** Ao explicar arquitetura, fluxo, problema ou
+  proposta, use diagrama em ASCII ou Unicode (caixas, setas, antes e depois,
+  linha do tempo, checklist) e pouco texto, só o que liga os desenhos. Só
+  explique de outra forma se eu pedir.
+
 Isto vale para o texto que eu leio, não para o rigor do trabalho: continue
 verificando, testando e medindo antes de afirmar.
+
+### Antes de alterar arquivos
+
+**Pergunte antes de alterar qualquer arquivo e espere minha confirmação
+explícita.** Só então comece a editar. Ler, buscar e executar comandos que não
+gravam em disco não precisam de pergunta.
+
+- Diga quais arquivos pretende alterar e o que muda em cada um.
+- Silêncio, "talvez" e confirmação de outro assunto não valem.
+- A confirmação vale para o que foi descrito. Arquivo fora da lista pede nova
+  pergunta.
+- Roteiro aprovado do `[[ORQUESTRADOR]]` conta como confirmação para os arquivos
+  que ele lista.
 
 ### Comentários no código
 
@@ -74,15 +92,51 @@ Prefixos: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`.
 
 ### Gates
 
-1. Ao final de cada fase, execute `[[GATE_CODE]]`. É essencial.
-2. **Se a § 21.2 acusar divergência**, execute `[[DOCUMENTACAO]]` em modo
-   incremental sobre os documentos apontados e re-execute a seção. Documentação
-   desatualizada reprova a fase como qualquer outro BLOCKER.
-3. Depois que o gate de código passar, execute `[[GATE_SECURITY]]`. Também é
-   essencial.
-4. **Depois dos gates, preencha `[[DOC_CHANGELOG]]`** com a entrada da sessão.
-   O `PASS` é o que autoriza a entrada. Resumido e objetivo: o que o software
-   passa a fazer, decisões, verificação, pendências.
+Ao final de cada fase, nesta ordem. Cada gate só começa quando o anterior
+aplicável retornou `PASS`.
+
+1. **Se a fase tocou a API**, execute `[[GATE_API]]`. Ele avalia o design do
+   contrato — consistência, previsibilidade, compatibilidade retroativa — e não
+   só se a chamada responde. Quebra de contrato sem versionamento reprova a
+   fase.
+2. **Se a fase tocou a interface web**, execute `[[GATE_FRONTEND]]`. Ele mede
+   conformidade de SEO, desempenho e acessibilidade, e registra a evolução em
+   `[[DOC_METRICAS_FRONT]]` — número antes, número depois. Fase que altera
+   frontend sem medida nova não fecha.
+3. **Se a fase criou ou alterou um ponto de entrada de dado externo**, execute
+   `[[GATE_INPUT]]`. Ele rastreia o dado da fronteira até o uso e exige entrada
+   hostil executada contra cada fronteira; validação só no frontend reprova a
+   fase.
+4. Execute `[[GATE_SECURITY]]`. É essencial.
+5. Execute `[[GATE_CODE]]`. É essencial e vem por último de propósito: ele
+   avalia também o código alterado pelas correções dos gates anteriores.
+6. **Se a § 21.2 do gate de código acusar divergência**, execute
+   `[[DOCUMENTACAO]]` em modo incremental sobre os documentos apontados e,
+   se o achado for guia do usuário ausente ou desatualizado,
+   `[[DOCUMENTACAO_USUARIO]]`. Re-execute `[[GATE_CODE]]` até a seção ficar
+   limpa. Documentação desatualizada reprova a fase como qualquer outro
+   BLOCKER.
+7. **Com os gates terminados, execute `[[RELATORIO_GATES]]`.** Ele consolida
+   o resultado da fase e grava em `[[DIR_GATES]]`, aprovada ou não.
+8. **Depois, preencha `[[DOC_CHANGELOG]]`** com a entrada da sessão, citando o
+   relatório. O `PASS` registrado é o que autoriza a entrada. Resumido e objetivo: o que o software
+   passa a fazer, decisões, verificação, pendências. Se a mudança é percebida
+   por quem usa o produto, escreva também a entrada de `[[DOC_NOVIDADES]]`,
+   em linguagem simples (`[[DOCUMENTACAO_USUARIO]]`).
+
+### Segurança
+
+- Todo input externo é não confiável: parâmetro, query, cabeçalho, cookie, corpo,
+  upload, formulário, API externa, fila, webhook, variável de ambiente,
+  arquivo de configuração e dado vindo do frontend.
+- Valide no backend, mesmo que o frontend valide. Dado validado em outra camada
+  continua não confiável nesta.
+- Aceite por lista do que é permitido (tipo, formato, tamanho, valores), nunca
+  por lista do que é proibido. Codifique a saída para o contexto de destino.
+- Não exponha secrets e não os registre em log, erro ou resposta.
+- Não assuma tecnologia que o projeto não usa; trate os vetores da que ele usa.
+- Não mascare falha para obter `PASS`. Correção é seguida de nova validação.
+- Toda alteração é rastreável e todo resultado tem evidência que o justifica.
 
 ### Leituras obrigatórias
 
@@ -191,6 +245,11 @@ da formatação melhor que uma instrução em texto.
 ## Formato do arquivo
 
 Uma página, no máximo duas. Seções curtas, listas, imperativo.
+
+**Resolva os IDs antes de escrever.** Quem lê `[[DOC_DIRETRIZES]]` não conhece
+a sintaxe `[[ID]]`. Artefato vira o caminho real; prompt vira o caminho
+instalado em `[[DIR_GOVERNANCA]]` — `.genesis/` é removida ao fim da montagem,
+e ponteiro para ela quebra.
 
 Ordene por frequência de uso: o que vale em toda alteração vem primeiro; o que
 vale em caso raro, depois.
